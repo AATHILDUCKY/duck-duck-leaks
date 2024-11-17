@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1 class="mb-2">GitHub Repository Leak Checker</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Check for Leaks</button>
+    </form>
+
+    {% if leaks %}
+        <h2>Found Leaks:</h2>
+        <ul>
+            {% for leak in leaks %}
+                <li>{{ leak.leak_type }}: {{ leak.leak_value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

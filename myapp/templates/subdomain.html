@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1 class="mb-2">Subdomain Scanner</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form1.as_p }}
+        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Scan</button>
+    </form>
+
+    {% if subdomain_list %}
+        <h2>Available Subdomains for {{ form1.cleaned_data.domain }}</h2>
+        <ul>
+            {% for sub in subdomain_list %}
+                <a href="https://{{ sub }}">
+                <li class="bg-orange-400 rounded-sm p-1 mb-1">{{ sub }}</li>
+                </a>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

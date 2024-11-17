@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1 class="mb-2">Directory Enumeration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Start Enumeration</button>
+    </form>
+
+    {% if enumerated_directories %}
+        <h2>Enumerated Directories</h2>
+        <ul>
+            {% for directory in enumerated_directories %}
+                <li class="bg-orange-400 rounded-sm p-1 mb-1"><a href="{{ directory.directory }}" target="_blank">{{ directory.directory }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h2>Scan Git Repository for Sensitive Data</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Scan</button>
+    </form>
+
+    {% if findings %}
+        <h3>Findings</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Pattern Name</th>
+                    <th>File Path</th>
+                    <th>Line Number</th>
+                    <th>Content</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for finding in findings %}
+                    <tr>
+                        <td>{{ finding.pattern_name }}</td>
+                        <td>{{ finding.file_path }}</td>
+                        <td>{{ finding.line_num }}</td>
+                        <td>{{ finding.content }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No findings yet.</p>
+    {% endif %}
+{% endblock %}

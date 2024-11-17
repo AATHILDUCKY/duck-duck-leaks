@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1>Sitemap URL Scanner</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Scan Sitemap</button>
+    </form>
+
+    {% if sitemap_urls %}
+        <h2 class="mt-4">Fetched Sitemap URLs</h2>
+        <ul>
+            {% for url in sitemap_urls %}
+                <li><a href="{{ url }}" target="_blank">{{ url }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

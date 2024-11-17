@@ -1,0 +1,49 @@
+# Dirsearch started Wed Oct 23 13:43:24 2024 as: C:\Users\User\AppData\Local\Programs\Python\Python310\Scripts\dirsearch -u http://192.168.8.101/ -w common.txt -o directoty.txt
+
+301     0B   http://192.168.8.101/0    -> REDIRECTS TO: http://192.168.8.101/0/
+301     0B   http://192.168.8.101/D    -> REDIRECTS TO: http://192.168.8.101/ducky/
+301     0B   http://192.168.8.101/Image    -> REDIRECTS TO: http://192.168.8.101/Image/
+301   235B   http://192.168.8.101/admin    -> REDIRECTS TO: http://192.168.8.101/admin/
+301   235B   http://192.168.8.101/audio    -> REDIRECTS TO: http://192.168.8.101/audio/
+301     0B   http://192.168.8.101/atom    -> REDIRECTS TO: http://192.168.8.101/feed/atom/
+301   234B   http://192.168.8.101/blog    -> REDIRECTS TO: http://192.168.8.101/blog/
+404   206B   http://192.168.8.101/cgi-bin/
+301   233B   http://192.168.8.101/css    -> REDIRECTS TO: http://192.168.8.101/css/
+301     0B   http://192.168.8.101/d    -> REDIRECTS TO: http://192.168.8.101/ducky/
+302     0B   http://192.168.8.101/dashboard    -> REDIRECTS TO: http://192.168.8.101/wp-admin/
+200     0B   http://192.168.8.101/favicon.ico
+301     0B   http://192.168.8.101/feed    -> REDIRECTS TO: http://192.168.8.101/feed/
+301   236B   http://192.168.8.101/images    -> REDIRECTS TO: http://192.168.8.101/images/
+301     0B   http://192.168.8.101/image    -> REDIRECTS TO: http://192.168.8.101/image/
+301     0B   http://192.168.8.101/index.php    -> REDIRECTS TO: http://192.168.8.101/
+200   504KB  http://192.168.8.101/intro
+301   232B   http://192.168.8.101/js    -> REDIRECTS TO: http://192.168.8.101/js/
+200     7KB  http://192.168.8.101/license
+302     0B   http://192.168.8.101/login    -> REDIRECTS TO: http://192.168.8.101/wp-login.php
+301     0B   http://192.168.8.101/page1    -> REDIRECTS TO: http://192.168.8.101/
+403    94B   http://192.168.8.101/phpmyadmin
+200     4KB  http://192.168.8.101/readme
+301     0B   http://192.168.8.101/rdf    -> REDIRECTS TO: http://192.168.8.101/feed/rdf/
+301     0B   http://192.168.8.101/render/https://www.google.com    -> REDIRECTS TO: http://192.168.8.101/render/https:/www.google.com
+200    41B   http://192.168.8.101/robots
+200    41B   http://192.168.8.101/robots.txt
+301     0B   http://192.168.8.101/rss    -> REDIRECTS TO: http://192.168.8.101/feed/
+301     0B   http://192.168.8.101/rss2    -> REDIRECTS TO: http://192.168.8.101/feed/
+200     0B   http://192.168.8.101/sitemap
+200     0B   http://192.168.8.101/sitemap.xml
+301   235B   http://192.168.8.101/video    -> REDIRECTS TO: http://192.168.8.101/video/
+301   238B   http://192.168.8.101/wp-admin    -> REDIRECTS TO: http://192.168.8.101/wp-admin/
+301   240B   http://192.168.8.101/wp-content    -> REDIRECTS TO: http://192.168.8.101/wp-content/
+301   241B   http://192.168.8.101/wp-includes    -> REDIRECTS TO: http://192.168.8.101/wp-includes/
+404     0B   http://192.168.8.101/wp-blog-header
+200     0B   http://192.168.8.101/wp-config
+200     0B   http://192.168.8.101/wp-cron
+200   191B   http://192.168.8.101/wp-links-opml
+200     0B   http://192.168.8.101/wp-load
+403     3KB  http://192.168.8.101/wp-mail
+200     1KB  http://192.168.8.101/wp-login
+500     0B   http://192.168.8.101/wp-settings
+302     0B   http://192.168.8.101/wp-signup    -> REDIRECTS TO: http://192.168.8.101/wp-login.php?action=register
+404   135B   http://192.168.8.101/wp-trackback
+405    42B   http://192.168.8.101/xmlrpc
+405    42B   http://192.168.8.101/xmlrpc.php

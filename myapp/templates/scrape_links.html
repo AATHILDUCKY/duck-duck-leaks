@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="flex justify-between">
+    <h1 class="mb-2">Link Scraper</h1>
+    <a href="{% url 'scrape_linksM' %}">
+        <button class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">
+            scrap multiple links
+        </button>
+    </a>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Scan</button>
+    </form>
+
+    {% if scraped_links %}
+        <h2>Scraped Links</h2>
+        <ul>
+            {% for link in scraped_links %}
+                <li><a href="{{ link.link }}" target="_blank">{{ link.link }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

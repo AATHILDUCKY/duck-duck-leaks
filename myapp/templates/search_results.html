@@ -1,0 +1,127 @@
+<!-- templates/search_results.html -->
+{% extends "index.html" %}
+
+{% block content %}
+    <h2 class="text-2xl font-semibold mb-4">Search Across Multiple Tables</h2>
+    <form method="post" class="mb-6">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+    </form>
+
+    {% if results %}
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Search Results</h3>
+            <button onclick="copyAllLinks()" class="bg-green-500 text-white px-4 py-2 rounded">Copy All Links</button>
+        </div>
+
+        <div>
+            <h4 class="text-lg font-semibold mt-4">Google Links</h4>
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="border-b">
+                        <th class="px-4 py-2 text-left">Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results.google_links %}
+                        <tr class="border-b">
+                            <td class="px-4 py-2">{{ result.link }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td class="px-4 py-2">No results found in Google Links.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4 class="text-lg font-semibold mt-4">Directory Enumerations</h4>
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="border-b">
+                        <th class="px-4 py-2 text-left">Directory</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results.directory_enumerations %}
+                        <tr class="border-b">
+                            <td class="px-4 py-2">{{ result.directory }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td class="px-4 py-2">No results found in Directory Enumeration.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4 class="text-lg font-semibold mt-4">Link Scrap</h4>
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="border-b">
+                        <th class="px-4 py-2 text-left">Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results.linkscraps %}
+                        <tr class="border-b">
+                            <td class="px-4 py-2">{{ result.link }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td class="px-4 py-2">No results found in Link Scrap.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4 class="text-lg font-semibold mt-4">Sitemap URLs</h4>
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="border-b">
+                        <th class="px-4 py-2 text-left">URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results.sitemap_urls %}
+                        <tr class="border-b">
+                            <td class="px-4 py-2">{{ result.url }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td class="px-4 py-2">No results found in Sitemap URLs.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <!-- Script to copy all links -->
+    <script>
+        function copyAllLinks() {
+            const links = [];
+            {% for result in results.google_links %}
+                links.push("{{ result.link }}");
+            {% endfor %}
+            {% for result in results.directory_enumerations %}
+                links.push("{{ result.directory }}");
+            {% endfor %}
+            {% for result in results.linkscraps %}
+                links.push("{{ result.link }}");
+            {% endfor %}
+            {% for result in results.sitemap_urls %}
+                links.push("{{ result.url }}");
+            {% endfor %}
+
+            // Copy links to clipboard
+            const textToCopy = links.join("\n");
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("All links copied to clipboard!");
+            }).catch((error) => {
+                console.error("Failed to copy text: ", error);
+            });
+        }
+    </script>
+{% endblock %}

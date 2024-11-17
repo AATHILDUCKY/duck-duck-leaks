@@ -1,0 +1,249 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="flex">
+        <!-- Left section with the form -->
+        <div class="flex-1 mr-4">
+            <h1 class="mb-2">Google Search Links</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-2">
+                    <input id="input1" name="input1" type="text" class="border border-gray-300 rounded p-2 w-full" ondrop="drop(event)" ondragover="allowDrop(event)">
+                </div>
+                <div class="mb-2">
+                    <input id="input2" name="input2" type="text" class="border border-gray-300 rounded p-2 w-full" ondrop="drop(event)" ondragover="allowDrop(event)">
+                </div>
+                <div class="mb-2">
+                    <input id="input3" name="input3" type="text" class="border border-gray-300 rounded p-2 w-full" ondrop="drop(event)" ondragover="allowDrop(event)">
+                </div>
+                <div class="mb-2">
+                    <input id="input4" name="input4" type="text" class="border border-gray-300 rounded p-2 w-full" ondrop="drop(event)" ondragover="allowDrop(event)">
+                </div>
+                <div class="mb-2">
+                    <input id="input5" name="input5" type="text" class="border border-gray-300 rounded p-2 w-full" ondrop="drop(event)" ondragover="allowDrop(event)">
+                </div>
+                <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">
+                    Search
+                </button>
+            </form>
+
+            {% if google_links %}
+                <ul class="mt-4">
+                    {% for link in google_links %}
+                        <li><a href="{{ link.link }}" target="_blank" class="text-blue-600 hover:underline">{{ link.link }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <!-- Right section with the wordlist -->
+        <div class="w-96 h-96 overflow-y-scroll border border-gray-300 p-2 bg-gray-100">
+            <div id="wordList" class="space-y-2">
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">site:</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:env</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"DB_PASSWORD"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"mysql dump" filetype:sql</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:log inurl:log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:bak inurl:"backup"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:xml inurl:web.xml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:json "apikey"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:admin filetype:txt</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"s3.amazonaws.com" filetype:xml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "passwords"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"Authorization: Bearer" filetype:txt OR filetype:env</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:sql "insert into" intext:password</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"confidential" filetype:pdf</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"password" AND intext:"email" filetype:xls</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"phpinfo.php"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:cfg "server.cfg"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"MongoDB server information" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "credentials.json"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"AWS_SECRET_ACCESS_KEY" filetype:log OR filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:wp-config.php</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:json "client_secret"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/ftpconfig" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "id_rsa"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:txt "private_key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"ftp password" filetype:txt</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"DB_USERNAME" filetype:env</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:yaml intext:"password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "shadow"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:env "SECRET_KEY"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:".git" "index of"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"backup" filetype:zip</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:credentials filetype:xls</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/config.inc.php"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">"AWS_SECRET_ACCESS_KEY" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"OAuth" AND intext:"access_token" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:ini "user=*" "password=*"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "secrets.txt"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:log inurl:log4j</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"ssh-rsa" filetype:key</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"PGP PRIVATE KEY BLOCK" filetype:asc</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"auth_token" filetype:yaml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:conf "apache.conf"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"accessKeyId" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:bak "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"BEGIN RSA PRIVATE KEY" filetype:pem</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:php inurl:"config"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:sh "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "credentials.json"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:txt inurl:admin</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"X-Amz-Security-Token" filetype:log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"access_key" AND intext:"secret_key" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"password.txt"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:".npmrc" filetype:rc</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.ssh/id_rsa"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"secret" AND intext:"key" filetype:yaml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:yaml "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:inc intext:"db_password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"config.js"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:dat "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:".bash_history"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/phpinfo.php"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:sql "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"API_KEY" filetype:py</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "mysql-credentials"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"config.json" "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:bak "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/id_dsa"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.npmrc" "authToken"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "database.sql"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/sftp-config.json"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:log "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/wp-admin/install.php"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/passwd"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "private.pem"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:".keychain"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/pgp_keys.asc"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.dockercfg"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "database.db"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:conf "db_password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.terraform/"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"private_key" filetype:pem</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "credentials"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.gitlab-ci.yml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"app_secret" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "config.yaml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:ini "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/docker-compose.yml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.travis.yml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:txt "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"aws_secret_access_key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/secrets.xml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:yaml "access_key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/server.key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:log intext:"error"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/settings.py"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/database.yml"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.netrc"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "env"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"s3cmd" filetype:conf</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "ftpconfig"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:conf "shadow"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:".env.example" "DB_PASSWORD"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/debug.log"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:cfg "passwd"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.git/config" "repositoryformatversion"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:sql "INSERT INTO" "VALUES"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"Authorization: Bearer" filetype:json</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "apache/logs"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/docker-compose.yml" "secrets"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:ini "smtp_password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.aws/credentials"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:env "MAIL_HOST"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/key.pem"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/access_tokens"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"ftp_user" filetype:xml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:yaml "secret_key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/phpMyAdmin/scripts/setup.php"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:json "access_key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "backup.tar.gz"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.ssh/id_rsa.pub"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:ps1 "SecurePassword"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/error_log"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:log "token"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "mongodb.conf"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/.composer/auth.json"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:bak "db_password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "auth.log"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"Authorization Basic" filetype:htpasswd</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/conf.d"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/id_rsa"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:properties "username" "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/vpn.key"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:backup "db_user"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/composer.lock"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" ".ssh/authorized_keys"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:"/vault-token"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">filetype:psql "password"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:"Index of" "access.log"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:"AWS_SECRET_ACCESS_KEY"</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of .env</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: index of /Invoices*</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: index of backup.php</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: index of backup.xml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of SCADA</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: index of payment</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of private/log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: Index of inurl:fileadmin</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index.of (inurl:admin | intitle:admin)</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of contacts.vcf</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:filemanager/upload/asp/ index of</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of /configs</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intext:CAD Media Log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of /.vscode</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of intext:client.key.pem</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:wp-content/uploads/ intitle:logs</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:/wp-content/uploads/wp-file-manager-pro/fm_backup</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">-----BEGIN PGP PRIVATE KEY BLOCK----- ext:pem | ext:key | ext:txt -git</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">-----BEGIN EC PRIVATE KEY----- | -----BEGIN EC PARAMETERS----- ext:pem | ext:key | ext:txt</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:tcpconfig.html</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:/certs/server.key</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:print.htm intext:Domain Name: + Open</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:/jsps/testoperation.jsp Test Operation</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of *Maildir/new</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">-- Dumped from database version + -- Dumped by pg_dump version ext:txt | ext:sql | ext:env | ext:log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">/etc/config + index of / /</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">/etc/certs + index of / */*</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of dump.sql</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of inurl:admin/download</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of *.cert.pem | *.key.pem</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">ssh_host_dsa_key.pub + ssh_host_key + ssh_config = index of /</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">index of inurl:database ext:sql | xls | xml | json | csv</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of WebServers.xml</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">-- Dumping data for table `admin` | -- INSERT INTO `admin` VALUES ext:sql | ext:txt | ext:log | ext:env</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of .git/hooks/</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl: /.git</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:8080 + intext:httpfileserver 2.3</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">inurl:node_modules/mqtt/test/helpers/</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle: Index of inurl:admin/uploads</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of server.crt | server.csr</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of /CFIDE/ intext:administrator</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">index of mysql.sh</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">intitle:index of slapd.conf</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">GitLab ssh.log ext:log</div>
+<div draggable="true" ondragstart="drag(event)" class="p-1 bg-white border rounded cursor-move">ext:reg [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\SshHostKeys]</div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for drag and drop -->
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.textContent);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.value = data;
+        }
+    </script>
+{% endblock %}
