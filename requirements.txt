@@ -1,0 +1,5 @@
+install ultimate-sitemap-parser
+googlesearch-python
+sublist3r
+django
+git-python

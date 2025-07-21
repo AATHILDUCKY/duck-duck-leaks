@@ -1,126 +1,243 @@
 {% extends 'index.html' %}
 
 {% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <style>
-        .this-ul {
+        .table-list {
             list-style: none;
-            height: 150px;
-            overflow-x: hidden;
-            overflow-y: scroll;
-            padding: 6px;
-            border-radius: 10px;
-            border: 2px solid black;
-       }
-        .this-li {
-            background: #FF7518;
-            border-bottom: 1px solid black;
-            margin: 1px;
-            border-radius: 3px;
-            padding-left: 10px;
-       }
-       .this-li:hover {
-            background: orange;
-       }
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .table-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .table-item:hover {
+            background: #fff7ed;
+        }
+        .table-item:last-child {
+            border-bottom: none;
+        }
+        .table-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            flex-grow: 1;
+        }
+        .table-link:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        .table-item::before {
+            content: "•";
+            color: #f97316;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-right: 8px;
+        }
+        .copy-btn {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background: #ea580c;
+            transform: translateY(-1px);
+        }
+        .search-input {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 14px;
+            width: 100%;
+            max-width: 500px;
+            transition: all 0.2s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+        /* Custom scrollbar */
+        .table-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .table-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 12px 12px 0;
+        }
+        .table-list::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        .table-list::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
     </style>
-<h1 class="mb-2">Tables in Database</h1>
-    <ul class="this-ul">
-        {% for table in table_names %}
-            <li class="this-li">
-                <a href="?table={{ table }}">{{ table }}</a>
-            </li>
-        {% empty %}
-            <li>No tables found in the database.</li>
-        {% endfor %}
-    </ul>
+
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Database Tables</h1>
+        <p class="text-gray-600">Select a table to view its contents</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+        <ul class="table-list">
+            {% for table in table_names %}
+                <li class="table-item">
+                    <a href="?table={{ table }}" class="table-link">{{ table }}</a>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </li>
+            {% empty %}
+                <li class="table-item text-gray-500">No tables found in the database.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
     {% if selected_table %}
-        <h2 class="mt-3">Data from Table: <span class="bg-orange-400 p-2 rounded-md">{{ selected_table }}</span></h2>
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-100">
+            <div class="flex items-center gap-2 mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800">Table Data:</h2>
+                <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+                    {{ selected_table }}
+                </span>
+            </div>
 
-        <!-- Search Form -->
-        <form method="GET" class="mb-4" onsubmit="applyFilter(); return false;">
-            <input type="hidden" name="table" value="{{ selected_table }}">
-            <label for="search">Search (comma-separated keywords):</label>
-            <input type="text" name="search" id="search" value="{{ search_query|default:'' }}" class="input_cls">
-            <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mt-6">Filter</button>
-        </form>
+            <!-- Search Form -->
+            <form method="GET" class="mb-6" onsubmit="applyFilter(); return false;">
+                <input type="hidden" name="table" value="{{ selected_table }}">
+                <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+                    <div class="w-full sm:w-auto flex-grow">
+                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search (comma-separated keywords):</label>
+                        <input type="text" name="search" id="search" value="{{ search_query|default:'' }}" 
+                               class="search-input" placeholder="e.g. admin, user, test">
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+            </form>
 
-        {% if table_data %}
-            <table border="1" id="data-table">
-                <thead>
-                    <tr>
-                        {% for column in columns %}
-                            <th>
-                                {{ column }}
-                                <button class="copy-btn border-2 p-1 m-1 rounded-md" onclick="copyColumn({{ forloop.counter0 }})">Copy</button>
-                            </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in table_data %}
-                        <tr>
-                            {% for item in row %}
-                                <td>{{ item }}</td>
+            {% if table_data %}
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+                    <table class="min-w-full divide-y divide-gray-200" id="data-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                {% for column in columns %}
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <div class="flex items-center justify-between">
+                                            {{ column }}
+                                            <button class="copy-btn" onclick="copyColumn({{ forloop.counter0 }})" title="Copy column">
+                                                <i class="fas fa-copy text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for row in table_data %}
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    {% for item in row %}
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ item }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
                             {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No data found in this table.</p>
-        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-8 bg-gray-50 rounded-lg">
+                    <i class="fas fa-database text-4xl text-gray-300 mb-3"></i>
+                    <p class="text-gray-500">No data found in this table.</p>
+                </div>
+            {% endif %}
+        </div>
     {% endif %}
+</div>
 
-    <script>
-        function copyColumn(colIndex) {
-            const table = document.getElementById('data-table');
-            let columnText = '';
+<script>
+    function copyColumn(colIndex) {
+        const table = document.getElementById('data-table');
+        let columnText = '';
 
-            // Loop through the rows to get the data of the specific column
-            for (let i = 1; i < table.rows.length; i++) {  // Start from 1 to skip the header row
-                let row = table.rows[i];
-                
-                // Check if the row is visible (if it's hidden, it won't be copied)
-                if (row.style.display !== 'none') {
-                    columnText += row.cells[colIndex].innerText + '\n';
-                }
-            }
-
-            // Copy the column text to the clipboard
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = columnText.trim(); // Trim any extra newlines
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-
-            alert('Column data copied to clipboard!');
-        }
-
-        function applyFilter() {
-            const searchQuery = document.getElementById('search').value;
-            const keywords = searchQuery.split(',').map(kw => kw.trim().toLowerCase()); // Split by comma and trim
-
-            const table = document.getElementById('data-table');
-            const rows = table.getElementsByTagName('tr');
-
-            // Loop through all rows (except the header row)
-            for (let i = 1; i < rows.length; i++) {
-                let row = rows[i];
-                let cells = row.getElementsByTagName('td');
-                let rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-
-                // Check if all keywords are present in the row text
-                const allKeywordsPresent = keywords.every(keyword => rowText.includes(keyword));
-
-                // Show or hide the row based on the presence of all keywords
-                if (allKeywordsPresent) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        // Loop through the rows to get the data of the specific column
+        for (let i = 1; i < table.rows.length; i++) {  // Start from 1 to skip the header row
+            let row = table.rows[i];
+            
+            // Check if the row is visible (if it's hidden, it won't be copied)
+            if (row.style.display !== 'none') {
+                columnText += row.cells[colIndex].innerText + '\n';
             }
         }
-    </script>
 
+        // Create toast notification
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-4 right-4 px-6 py-3 bg-emerald-500 text-white rounded-lg shadow-lg flex items-center gap-2 transition-opacity duration-300 opacity-0';
+        toast.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>Column data copied to clipboard!</span>
+        `;
+        document.body.appendChild(toast);
+        
+        // Show toast
+        setTimeout(() => {
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+        }, 10);
+
+        // Hide toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('opacity-100');
+            toast.classList.add('opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+
+        // Copy the column text to the clipboard
+        navigator.clipboard.writeText(columnText.trim()).catch((error) => {
+            console.error("Failed to copy text: ", error);
+        });
+    }
+
+    function applyFilter() {
+        const searchQuery = document.getElementById('search').value;
+        const keywords = searchQuery.split(',').map(kw => kw.trim().toLowerCase()); // Split by comma and trim
+
+        const table = document.getElementById('data-table');
+        const rows = table.getElementsByTagName('tr');
+
+        // Loop through all rows (except the header row)
+        for (let i = 1; i < rows.length; i++) {
+            let row = rows[i];
+            let cells = row.getElementsByTagName('td');
+            let rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+
+            // Check if all keywords are present in the row text
+            const allKeywordsPresent = keywords.every(keyword => 
+                keyword === '' || rowText.includes(keyword)
+            );
+
+            // Show or hide the row based on the presence of all keywords
+            if (allKeywordsPresent) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    }
+</script>
 {% endblock %}

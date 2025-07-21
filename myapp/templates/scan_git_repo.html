@@ -1,51 +1,161 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <div class="container mx-auto">
-        <h1 class="text-2xl font-bold mb-5">Scan GitHub Repository for Sensitive Data</h1>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">GitHub Repository Scanner</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">Scan repositories for sensitive data like API keys, credentials, and other secrets</p>
+    </div>
 
-        <form method="post" class="mb-5">
+    <!-- Scan Form Card -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-100">
+        <form method="post" class="space-y-4">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Scan Repo</button>
+            <div class="space-y-4">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" 
+                    class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-search"></i> Scan Repository
+            </button>
         </form>
+    </div>
 
-        {% if findings %}
-            <h2 class="text-xl font-semibold mt-5">Scan Results</h2>
+    <!-- Results Section -->
+    {% if findings %}
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+            <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-shield-alt text-blue-500"></i> Scan Results
+            </h2>
+        </div>
 
-            {% if findings.0.message or findings.0.error %}
-                <p class="text-red-500">{{ findings.0.message }} {{ findings.0.error }}</p>
-            {% else %}
-                <table class="table-auto w-full mt-5">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">File Path</th>
-                            <th class="px-4 py-2">Sensitive Strings</th>
-                            <th class="px-4 py-2">Commit ID</th>
-                            <th class="px-4 py-2">Author</th>
-                            <th class="px-4 py-2">Date</th>
-                            <th class="px-4 py-2">Commit Message</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for finding in findings %}
-                            <tr class="bg-gray-200">
-                                <td class="border px-4 py-2">{{ finding.file }}</td>
-                                <td class="border px-4 py-2">
-                                    {% for string in finding.strings_found %}
-                                        <p>{{ string }}</p>
-                                    {% endfor %}
-                                </td>
-                                <td class="border px-4 py-2">{{ finding.commit }}</td>
-                                <td class="border px-4 py-2">{{ finding.commit_author }}</td>
-                                <td class="border px-4 py-2">{{ finding.date }}</td>
-                                <td class="border px-4 py-2">{{ finding.message }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
+        {% if findings.0.message or findings.0.error %}
+        <div class="p-6">
+            <div class="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                <i class="fas fa-exclamation-circle mr-3"></i>
+                <span class="font-medium">{{ findings.0.message }} {{ findings.0.error }}</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            File Path
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Sensitive Data
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Commit ID
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Author
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Message
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for finding in findings %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-code text-gray-400 mr-2"></i>
+                                <span class="truncate max-w-xs">{{ finding.file }}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <div class="space-y-1">
+                                {% for string in finding.strings_found %}
+                                <div class="bg-red-50 text-red-700 px-2 py-1 rounded text-xs font-mono break-all">
+                                    {{ string }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
+                            {{ finding.commit|truncatechars:10 }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ finding.commit_author }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ finding.date }}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <div class="line-clamp-2">{{ finding.message }}</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% endif %}
     </div>
-{% endblock %}
+    {% endif %}
 
+    <!-- Empty State (when no scan has been performed yet) -->
+    {% if not findings %}
+    <div class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
+        <div class="mx-auto max-w-md">
+            <i class="fas fa-github-alt text-5xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No scan results yet</h3>
+            <p class="text-gray-500 mb-6">Enter a GitHub repository URL above to scan for sensitive data</p>
+            <div class="flex justify-center">
+                <i class="fas fa-arrow-up text-gray-400 text-xl animate-bounce"></i>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Style for form elements -->
+<style>
+    /* Form input styling */
+    input[type="text"], input[type="url"], textarea, select {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 10px 14px;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    input[type="text"]:focus, input[type="url"]:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #374151;
+    }
+    /* Error message styling */
+    .errorlist {
+        color: #dc2626;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    /* Table styling */
+    .table-container {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+    /* Responsive table */
+    @media (max-width: 768px) {
+        table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+        }
+    }
+</style>
+{% endblock %}

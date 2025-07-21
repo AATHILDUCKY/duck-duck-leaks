@@ -1,21 +1,99 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <h1 class="mb-2">Subdomain Scanner</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form1.as_p }}
-        <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-4">Scan</button>
-    </form>
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-100 rounded-full mb-4">
+            <i class="fas fa-network-wired text-2xl text-orange-500"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Subdomain Scanner</h1>
+        <p class="text-gray-600">Discover all subdomains associated with your target domain</p>
+    </div>
 
+    <!-- Form Card -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-100">
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {{ form1.as_p }}
+            </div>
+            <button type="submit" 
+                    class="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+                <i class="fas fa-search"></i> Scan for Subdomains
+            </button>
+        </form>
+    </div>
+
+    <!-- Results Section -->
     {% if subdomain_list %}
-        <h2>Available Subdomains for {{ form1.cleaned_data.domain }}</h2>
-        <ul>
-            {% for sub in subdomain_list %}
-                <a href="https://{{ sub }}">
-                <li class="bg-orange-400 rounded-sm p-1 mb-1">{{ sub }}</li>
-                </a>
-            {% endfor %}
-        </ul>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-orange-50 to-pink-50">
+            <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-sitemap text-orange-500"></i>
+                Subdomains for <span class="font-mono ml-1">{{ form1.cleaned_data.domain }}</span>
+                <span class="ml-auto bg-orange-500 text-white text-sm font-medium px-3 py-1 rounded-full">
+                    {{ subdomain_list|length }} found
+                </span>
+            </h2>
+        </div>
+
+        <div class="overflow-hidden">
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+                {% for sub in subdomain_list %}
+                <li class="group">
+                    <a href="https://{{ sub }}" target="_blank" class="block">
+                        <div class="flex items-center p-3 rounded-lg border border-gray-200 group-hover:border-orange-300 group-hover:bg-orange-50 transition-colors duration-200">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-globe text-orange-500 group-hover:text-orange-600"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate group-hover:text-orange-600">{{ sub }}</p>
+                                <p class="text-xs text-gray-500">Click to visit</p>
+                            </div>
+                            <div class="ml-auto text-gray-400 group-hover:text-orange-500">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% endif %}
+</div>
+
+<!-- Form Input Styling -->
+<style>
+    /* Form input styling */
+    input[type="text"], input[type="url"], textarea, select {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 10px 14px;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    input[type="text"]:focus, input[type="url"]:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #f97316;
+        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #374151;
+    }
+    /* Error message styling */
+    .errorlist {
+        color: #dc2626;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    /* Monospace font for domain */
+    .font-mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+</style>
 {% endblock %}

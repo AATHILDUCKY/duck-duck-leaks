@@ -1,101 +1,154 @@
-<!-- templates/search_results.html -->
 {% extends "index.html" %}
 
 {% block content %}
-    <h2 class="text-2xl font-semibold mb-4">Search Across Multiple Tables</h2>
-    <form method="post" class="mb-6">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary bg-blue-500 text-white px-4 py-2 rounded">Search</button>
-    </form>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Search Header -->
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Search Across Multiple Tables</h2>
+        <p class="text-gray-600">Find data across all collected sources</p>
+    </div>
+
+    <!-- Search Form -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" 
+                    class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center">
+                <i class="fas fa-search mr-2"></i> Search
+            </button>
+        </form>
+    </div>
 
     {% if results %}
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-semibold">Search Results</h3>
-            <button onclick="copyAllLinks()" class="bg-green-500 text-white px-4 py-2 rounded">Copy All Links</button>
+    <!-- Results Section -->
+    <div class="space-y-8">
+        <!-- Results Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h3 class="text-2xl font-semibold text-gray-800">Search Results</h3>
+            <button onclick="copyAllLinks()" 
+                    class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-lg transition-all flex items-center gap-2 shadow-sm hover:shadow-md">
+                <i class="fas fa-copy"></i> Copy All Links
+            </button>
         </div>
 
-        <div>
-            <h4 class="text-lg font-semibold mt-4">Google Links</h4>
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="border-b">
-                        <th class="px-4 py-2 text-left">Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results.google_links %}
-                        <tr class="border-b">
-                            <td class="px-4 py-2">{{ result.link }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td class="px-4 py-2">No results found in Google Links.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Results Container -->
+        <div class="space-y-8">
+            <!-- Google Links Section -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h4 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+                        <i class="fab fa-google text-blue-500"></i> Google Links
+                    </h4>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200">
+                            {% for result in results.google_links %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ result.link }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                        {{ result.link }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="px-6 py-4 text-gray-500">No results found in Google Links.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h4 class="text-lg font-semibold mt-4">Directory Enumerations</h4>
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="border-b">
-                        <th class="px-4 py-2 text-left">Directory</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results.directory_enumerations %}
-                        <tr class="border-b">
-                            <td class="px-4 py-2">{{ result.directory }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td class="px-4 py-2">No results found in Directory Enumeration.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <!-- Directory Enumerations Section -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h4 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+                        <i class="fas fa-folder-open text-orange-500"></i> Directory Enumerations
+                    </h4>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200">
+                            {% for result in results.directory_enumerations %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ result.directory }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                        {{ result.directory }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="px-6 py-4 text-gray-500">No results found in Directory Enumeration.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h4 class="text-lg font-semibold mt-4">Link Scrap</h4>
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="border-b">
-                        <th class="px-4 py-2 text-left">Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results.linkscraps %}
-                        <tr class="border-b">
-                            <td class="px-4 py-2">{{ result.link }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td class="px-4 py-2">No results found in Link Scrap.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <!-- Link Scrap Section -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h4 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+                        <i class="fas fa-link text-purple-500"></i> Link Scrap
+                    </h4>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200">
+                            {% for result in results.linkscraps %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ result.link }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                        {{ result.link }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="px-6 py-4 text-gray-500">No results found in Link Scrap.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <h4 class="text-lg font-semibold mt-4">Sitemap URLs</h4>
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="border-b">
-                        <th class="px-4 py-2 text-left">URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for result in results.sitemap_urls %}
-                        <tr class="border-b">
-                            <td class="px-4 py-2">{{ result.url }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td class="px-4 py-2">No results found in Sitemap URLs.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <!-- Sitemap URLs Section -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
+                    <h4 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+                        <i class="fas fa-sitemap text-green-500"></i> Sitemap URLs
+                    </h4>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200">
+                            {% for result in results.sitemap_urls %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ result.url }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                        {{ result.url }}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td class="px-6 py-4 text-gray-500">No results found in Sitemap URLs.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </div>
     {% endif %}
 
     <!-- Script to copy all links -->
@@ -115,13 +168,34 @@
                 links.push("{{ result.url }}");
             {% endfor %}
 
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 px-6 py-3 bg-emerald-500 text-white rounded-lg shadow-lg flex items-center gap-2 transition-opacity duration-300 opacity-0';
+            toast.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${links.length} links copied to clipboard!</span>
+            `;
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+            }, 10);
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+
             // Copy links to clipboard
             const textToCopy = links.join("\n");
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert("All links copied to clipboard!");
-            }).catch((error) => {
+            navigator.clipboard.writeText(textToCopy).catch((error) => {
                 console.error("Failed to copy text: ", error);
             });
         }
     </script>
+</div>
 {% endblock %}
